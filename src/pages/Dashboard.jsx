@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/authContext.jsx";
 import Chatbot from "../components/Chatbot";
+import Sidebar from "../components/sidebar";
+// Import each diagnostic component separately (or keep the tabs wrapper)
+import SymptomChecker from "../components/CoreDiagnosticFeatures/SymptomChecker";
+import RiskPredictor from "../components/CoreDiagnosticFeatures/RiskPredictor";
+import ImageAnalyzer from "../components/CoreDiagnosticFeatures/ImageAnalyzer";
+import LabInterpreter from "../components/CoreDiagnosticFeatures/LabInterpreter";
+import MedicationChecker from "../components/CoreDiagnosticFeatures/MedicationChecker";
+import RemoteMonitoring from "../components/PatientFeatures/RemoteMonitoring";
+import MedicationTracker from "../components/PatientFeatures/MedicationTracker";
+import HealthCoach from "../components/PatientFeatures/HealthCoach";
+import SymptomJournal from "../components/PatientFeatures/SymptomJournal";
 import {
   Activity,
   Heart,
@@ -9,11 +20,26 @@ import {
   TrendingUp,
   Smile,
   Droplet,
+  Menu,
   Moon,
+  X,
+  LayoutDashboard,
+  MessageSquare,
+  Stethoscope,
+  Scan,
+  Microscope,
+  Pill,
+  MonitorSmartphone,
+  Pill as PillIcon,
+  Apple,
+  BookOpen,
 } from "lucide-react";
 
 const Dashboard = () => {
   const { user } = useAuth();
+  const [activeView, setActiveView] = useState("dashboard");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   const [healthStats, setHealthStats] = useState({
     steps: 7842,
     heartRate: 72,
@@ -22,7 +48,6 @@ const Dashboard = () => {
     mood: "Good",
   });
 
-  // Simulate real-time updates
   useEffect(() => {
     const interval = setInterval(() => {
       setHealthStats((prev) => ({
@@ -33,10 +58,157 @@ const Dashboard = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Navigation items
+  const navItems = [
+    {
+      id: "dashboard",
+      label: "Dashboard",
+      icon: <LayoutDashboard size={20} />,
+    },
+    { id: "chatbot", label: "AI Chatbot", icon: <MessageSquare size={20} /> },
+    {
+      id: "symptoms",
+      label: "Symptom Checker",
+      icon: <Stethoscope size={20} />,
+    },
+    { id: "risk", label: "Risk Predictor", icon: <Activity size={20} /> },
+    { id: "image", label: "Image Analyzer", icon: <Scan size={20} /> },
+    { id: "lab", label: "Lab Interpreter", icon: <Microscope size={20} /> },
+    { id: "meds", label: "Medication Checker", icon: <Pill size={20} /> },
+    {
+      id: "monitoring",
+      label: "Remote Monitoring",
+      icon: <MonitorSmartphone size={20} />,
+    },
+    {
+      id: "medtracker",
+      label: "Medication Tracker",
+      icon: <PillIcon size={20} />,
+    },
+    { id: "coach", label: "Health Coach", icon: <Apple size={20} /> },
+    { id: "journal", label: "Symptom Journal", icon: <BookOpen size={20} /> },
+  ];
+
+  // Render content based on activeView
+  const renderContent = () => {
+    switch (activeView) {
+      case "dashboard":
+        return (
+          <DashboardHome
+            healthStats={healthStats}
+            user={user}
+            onNavigate={(view) => setActiveView(view)}
+          />
+        );
+      case "chatbot":
+        return <ChatbotFull />;
+      case "symptoms":
+        return (
+          <FeatureWrapper
+            title="Symptom Checker & Triage"
+            onBack={() => setActiveView("dashboard")}
+          >
+            <SymptomChecker />
+          </FeatureWrapper>
+        );
+      case "risk":
+        return (
+          <FeatureWrapper
+            title="Chronic Disease Risk Predictor"
+            onBack={() => setActiveView("dashboard")}
+          >
+            <RiskPredictor />
+          </FeatureWrapper>
+        );
+      case "image":
+        return (
+          <FeatureWrapper
+            title="Medical Image Analyzer"
+            onBack={() => setActiveView("dashboard")}
+          >
+            <ImageAnalyzer />
+          </FeatureWrapper>
+        );
+      case "lab":
+        return (
+          <FeatureWrapper
+            title="Lab Result Interpreter"
+            onBack={() => setActiveView("dashboard")}
+          >
+            <LabInterpreter />
+          </FeatureWrapper>
+        );
+      case "meds":
+        return (
+          <FeatureWrapper
+            title="Medication Interaction Checker"
+            onBack={() => setActiveView("dashboard")}
+          >
+            <MedicationChecker />
+          </FeatureWrapper>
+        );
+      case "monitoring":
+        return (
+          <FeatureWrapper title="Remote Patient Monitoring">
+            <RemoteMonitoring />
+          </FeatureWrapper>
+        );
+      case "medtracker":
+        return (
+          <FeatureWrapper title="Medication Adherence Tracker">
+            <MedicationTracker />
+          </FeatureWrapper>
+        );
+      case "coach":
+        return (
+          <FeatureWrapper title="Personalized Health Coach">
+            <HealthCoach />
+          </FeatureWrapper>
+        );
+      case "journal":
+        return (
+          <FeatureWrapper title="Symptom Journal with AI Analysis">
+            <SymptomJournal />
+          </FeatureWrapper>
+        );
+      default:
+        return <DashboardHome healthStats={healthStats} user={user} />;
+    }
+  };
+
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="flex h-screen bg-gray-50">
+      <Sidebar
+        navItems={navItems}
+        activeView={activeView}
+        setActiveView={setActiveView}
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+      />
+
+      {/* Main Content */}
+      <main className="flex-1 overflow-y-auto">
+        {/* Mobile header with menu button */}
+        <div className="lg:hidden sticky top-0 bg-white shadow-sm p-4 flex items-center gap-3 z-10">
+          <button onClick={() => setSidebarOpen(true)}>
+            <Menu size={24} />
+          </button>
+          <h1 className="text-xl font-semibold">
+            {navItems.find((i) => i.id === activeView)?.label || "Dashboard"}
+          </h1>
+        </div>
+        <div className="p-4 md:p-6">{renderContent()}</div>
+      </main>
+    </div>
+  );
+};
+
+// Dashboard Home Component (your original dashboard content)
+const DashboardHome = ({ healthStats, user, onNavigate }) => {
+  return (
+    <div>
       <div className="mb-8 animate-fade-in">
-        <h1 className="text-3xl font-bold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
           Welcome back, {user?.name}!
         </h1>
         <p className="text-gray-600 mt-1">
@@ -76,8 +248,65 @@ const Dashboard = () => {
         />
       </div>
 
+      {/* Quick Tools */}
+      <div className="mt-6 mb-8">
+        <h3 className="text-lg font-semibold mb-3">Quick Tools</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+          <button
+            onClick={() => onNavigate && onNavigate("symptoms")}
+            className="p-4 bg-white rounded-lg shadow hover:shadow-lg text-left transition flex flex-col"
+          >
+            <span className="text-2xl">🩺</span>
+            <span className="font-medium mt-2">Symptom Checker</span>
+            <span className="text-xs text-gray-500 mt-1">
+              Triage & recommendations
+            </span>
+          </button>
+
+          <button
+            onClick={() => onNavigate && onNavigate("risk")}
+            className="p-4 bg-white rounded-lg shadow hover:shadow-lg text-left transition flex flex-col"
+          >
+            <span className="text-2xl">📊</span>
+            <span className="font-medium mt-2">Risk Predictor</span>
+            <span className="text-xs text-gray-500 mt-1">
+              Chronic disease risk
+            </span>
+          </button>
+
+          <button
+            onClick={() => onNavigate && onNavigate("image")}
+            className="p-4 bg-white rounded-lg shadow hover:shadow-lg text-left transition flex flex-col"
+          >
+            <span className="text-2xl">🖼️</span>
+            <span className="font-medium mt-2">Image Analyzer</span>
+            <span className="text-xs text-gray-500 mt-1">
+              X-ray / MRI helper
+            </span>
+          </button>
+
+          <button
+            onClick={() => onNavigate && onNavigate("lab")}
+            className="p-4 bg-white rounded-lg shadow hover:shadow-lg text-left transition flex flex-col"
+          >
+            <span className="text-2xl">🔬</span>
+            <span className="font-medium mt-2">Lab Interpreter</span>
+            <span className="text-xs text-gray-500 mt-1">Explain results</span>
+          </button>
+
+          <button
+            onClick={() => onNavigate && onNavigate("meds")}
+            className="p-4 bg-white rounded-lg shadow hover:shadow-lg text-left transition flex flex-col"
+          >
+            <span className="text-2xl">💊</span>
+            <span className="font-medium mt-2">Medication Checker</span>
+            <span className="text-xs text-gray-500 mt-1">Interactions</span>
+          </button>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Chatbot Section */}
+        {/* Chatbot preview */}
         <div className="animate-slide-up">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold flex items-center">
@@ -91,7 +320,7 @@ const Dashboard = () => {
           <Chatbot />
         </div>
 
-        {/* Health Insights & Recent Activity */}
+        {/* Health Insights & Reminders */}
         <div className="space-y-6 animate-slide-up">
           <div className="bg-white rounded-2xl p-6 shadow-md">
             <h3 className="font-semibold text-lg mb-4 flex items-center">
@@ -145,7 +374,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="bg-linear-to-r from-blue-600 to-purple-600 rounded-2xl p-6 text-white shadow-lg">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-6 text-white shadow-lg">
             <div className="flex items-center justify-between">
               <div>
                 <h4 className="font-semibold text-lg">Health Report</h4>
@@ -165,25 +394,55 @@ const Dashboard = () => {
   );
 };
 
-const StatCard = ({ icon, title, value, change, trend }) => {
-  return (
-    <div className="bg-white rounded-2xl p-4 md:p-6 shadow-md hover:shadow-lg transition-smooth">
-      <div className="flex items-center justify-between mb-3">
-        <div className="text-gray-500 text-sm font-medium">{title}</div>
-        <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center">
-          {icon}
-        </div>
-      </div>
-      <div className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800">
-        {value}
-      </div>
-      <div
-        className={`text-xs md:text-sm mt-2 ${trend === "up" ? "text-green-500" : "text-red-500"}`}
-      >
-        {change} from yesterday
+const StatCard = ({ icon, title, value, change, trend }) => (
+  <div className="bg-white rounded-2xl p-4 md:p-6 shadow-md hover:shadow-lg transition-smooth">
+    <div className="flex items-center justify-between mb-3">
+      <div className="text-gray-500 text-sm font-medium">{title}</div>
+      <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center">
+        {icon}
       </div>
     </div>
-  );
-};
+    <div className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800">
+      {value}
+    </div>
+    <div
+      className={`text-xs md:text-sm mt-2 ${trend === "up" ? "text-green-500" : "text-red-500"}`}
+    >
+      {change} from yesterday
+    </div>
+  </div>
+);
+
+// Wrapper for each diagnostic feature to give consistent title & spacing
+const FeatureWrapper = ({ title, children, onBack }) => (
+  <div>
+    <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center gap-3">
+        {onBack && (
+          <button
+            onClick={onBack}
+            className="px-3 py-1 bg-gray-100 rounded-md hover:bg-gray-200"
+          >
+            ← Back
+          </button>
+        )}
+        <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
+      </div>
+    </div>
+    <div className="bg-white rounded-xl shadow-sm p-6">{children}</div>
+  </div>
+);
+
+// Full-page chatbot (so it's not inside a small preview card)
+const ChatbotFull = () => (
+  <div>
+    <h2 className="text-2xl font-bold text-gray-800 mb-4">
+      AI Health Assistant
+    </h2>
+    <div className="bg-white rounded-xl shadow-sm h-[70vh]">
+      <Chatbot />
+    </div>
+  </div>
+);
 
 export default Dashboard;

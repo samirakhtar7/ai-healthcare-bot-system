@@ -14,6 +14,7 @@ import Features from "./pages/Features";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import CoreDiagnosticFeatures from "./components/CoreDiagnosticFeatures/index.jsx";
 
 const PrivateRoute = ({ children }) => {
   const { user } = useAuth();
@@ -36,6 +37,15 @@ function AppRoutes() {
             element={
               <PrivateRoute>
                 <Dashboard />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/diagnostic-tools"
+            element={
+              <PrivateRoute>
+                <CoreDiagnosticFeatures />
               </PrivateRoute>
             }
           />
