@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { interpretLab } from "../../utils/mockAI";
+import { interpretLab } from "../../utils/mockAi";
 import { Loader2, Plus, Trash2 } from "lucide-react";
 
 export default function LabInterpreter() {

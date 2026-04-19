@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { predictRisk } from "../../utils/mockAI";
+import { predictRisk } from "../../utils/mockAi";
 import { Loader2, Heart, Brain, Droplet } from "lucide-react";
 
 export default function RiskPredictor() {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { analyzeSymptoms } from "../../utils/mockAI";
+import { analyzeSymptoms } from "../../utils/mockAi";
 import { AlertCircle, Loader2, Activity } from "lucide-react";
 
 export default function SymptomChecker() {

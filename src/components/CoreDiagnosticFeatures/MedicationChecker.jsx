@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { checkInteractions } from "../../utils/mockAI";
+import { checkInteractions } from "../../utils/mockAi";
 import { Loader2, AlertTriangle, Info } from "lucide-react";
 
 export default function MedicationChecker() {

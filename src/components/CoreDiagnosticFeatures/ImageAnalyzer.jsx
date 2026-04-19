@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { analyzeImage } from "../../utils/mockAI";
+import { analyzeImage } from "../../utils/mockAi";
 
 export default function ImageAnalyzer() {
   const [file, setFile] = useState(null);
