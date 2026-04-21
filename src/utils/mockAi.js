@@ -7,8 +7,9 @@ function extractJSON(text) {
     const jsonMatch =
       text.match(/```json\s*([\s\S]*?)\s*```/) || text.match(/(\{[\s\S]*\})/);
     if (jsonMatch) return JSON.parse(jsonMatch[1]);
-  } catch (e) {}
-  return null;
+  } catch (e) {
+    return null;
+  }
 }
 
 // 1. Symptom Checker
