@@ -29,6 +29,7 @@ export default function LabInterpreter() {
     else updated[idx][field] = val;
     setLabInputs(updated);
   };
+  
 
   const handleSubmit = async () => {
     setLoading(true);
