@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Send, Bot, User, Sparkles } from "lucide-react";
 import { getHealthAIResponse } from "../services/gemini";
 
+
 const Chatbot = () => {
   const [messages, setMessages] = useState([
     {
