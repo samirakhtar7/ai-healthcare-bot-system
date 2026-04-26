@@ -36,6 +36,7 @@ export default function RemoteMonitoring() {
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
+          
           icon={<Activity className="text-green-500" />}
           title="Steps"
           value={data.steps.today.toLocaleString()}
@@ -48,6 +49,7 @@ export default function RemoteMonitoring() {
           title="Heart Rate"
           value={data.heartRate.current}
           unit="bpm"
+          
           subtitle={`Resting: ${data.heartRate.resting}`}
         />
         <MetricCard
