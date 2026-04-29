@@ -109,6 +109,9 @@ const Dashboard = () => {
             onBack={() => setActiveView("dashboard")}
           >
             <SymptomChecker />
+
+
+            
           </FeatureWrapper>
         );
       case "risk":

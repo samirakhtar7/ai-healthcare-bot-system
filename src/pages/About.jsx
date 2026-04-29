@@ -8,10 +8,9 @@ const About = () => {
         <Info className="h-12 w-12 text-blue-600 mx-auto mb-4" />
         <h1 className="text-4xl font-bold">About AI HealthBot</h1>
         <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
-          AI HealthBot is a student-built project providing AI-driven
-          healthcare guidance, symptom analysis, and educational resources.
-          Our goal is to make health information accessible and easy to
-          understand.
+          AI HealthBot is a student-built project providing AI-driven healthcare
+          guidance, symptom analysis, and educational resources. Our goal is to
+          make health information accessible and easy to understand.
         </p>
       </div>
 
@@ -25,10 +24,15 @@ const About = () => {
         </div>
         <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-2xl font-semibold mb-3">Team</h2>
-          <p className="text-gray-600">
-            Built as a college project with a focus on privacy, usability,
-            and reliable symptom guidance. <Heart className="inline h-5 w-5 text-red-500 ml-2" />
+          <p className="text-gray-600 mb-4">
+            Built as a college project with a focus on privacy, usability, and
+            reliable symptom guidance.
           </p>
+          <ul className="list-disc list-inside text-gray-700">
+            <li>Zaid Shaikh</li>
+            <li>Samir Akhtar</li>
+            <li>Aryaman</li>
+          </ul>
         </div>
       </section>
     </div>
