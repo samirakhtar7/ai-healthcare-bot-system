@@ -105,13 +105,14 @@ const Dashboard = () => {
       case "symptoms":
         return (
           <FeatureWrapper
+            
             title="Symptom Checker & Triage"
             onBack={() => setActiveView("dashboard")}
           >
             <SymptomChecker />
 
 
-            
+
           </FeatureWrapper>
         );
       case "risk":
