@@ -19,7 +19,8 @@ If you are developing a production application, we recommend using TypeScript wi
 
 
 
-testing data 
+testing data for the test and valid cases
+
 # symptom checker Basic Valid Cases
 Symptoms: cough, fever
 Duration: 3 days
